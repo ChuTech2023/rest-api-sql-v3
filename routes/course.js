@@ -56,7 +56,12 @@ router.post('/courses', async (req, res, next) => {
        const course = await Course.create(newCourse)
         res.status(201).location(`/courses/${course.id}`).end()
     } catch (error) {
-        next(error)
+        if (error.name === "SequelizeValidationError") {
+           const errors = error.errors.map( (e) => e.message)
+           res.status(400).json({errors})
+        } else {
+            next(error)
+        }
     }
 })
 
@@ -69,7 +74,12 @@ router.put('/courses/:id', async (req, res, next) => {
         })
         res.status(204).end()
     } catch (error) {
-        next(error)
+        if (error.name === "SequelizeValidationError") {
+            const errors = error.errors.map( (e) => e.message)
+            res.status(400).json({errors})
+         } else {
+             next(error)
+         }
     }
 })
 

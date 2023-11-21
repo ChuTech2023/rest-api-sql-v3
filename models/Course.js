@@ -4,10 +4,28 @@ module.exports = (sequelize) => {
     class Course extends Model {}
 Course.init({
     title: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: "A title is required"
+            },
+            notEmpty: {
+                msg: "Title can not be empty"
+            },
+        },
     }, 
     description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: "A description is required"
+            },
+            notEmpty: {
+                msg: "Description can not be empty"
+            },
+        },
     }, 
     estimatedTime : {
         type: DataTypes.STRING
