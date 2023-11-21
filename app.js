@@ -12,6 +12,10 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
+//BodyParser midware
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
