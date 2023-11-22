@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Course, User} = require('../models')
-
+const auth = require('../middleware/auth')
 
 
 //Route that returns a list of all courses and users associated with it
@@ -23,6 +23,7 @@ router.get('/courses', async (req, res, next) => {
     }
 })
 
+//Get one course with its details
 router.get('/courses/:id', async (req, res, next) => {
     try {
         const course = await Course.findOne({
@@ -48,7 +49,8 @@ router.get('/courses/:id', async (req, res, next) => {
     }
 })
 
-router.post('/courses', async (req, res, next) => {
+//create a course
+router.post('/courses', auth,  async (req, res, next) => {
     try {
         const newCourse = req.body
         console.log(newCourse);
@@ -65,7 +67,8 @@ router.post('/courses', async (req, res, next) => {
     }
 })
 
-router.put('/courses/:id', async (req, res, next) => {
+//update a course by ID
+router.put('/courses/:id', auth, async (req, res, next) => {
     try {
         await Course.update(req.body, {
             where: {
@@ -83,7 +86,8 @@ router.put('/courses/:id', async (req, res, next) => {
     }
 })
 
-router.delete('/courses/:id', async (req, res, next) => {
+//Delete a course by ID
+router.delete('/courses/:id', auth, async (req, res, next) => {
     try {
         await Course.destroy( {
             where: {
