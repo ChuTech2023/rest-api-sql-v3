@@ -52,7 +52,7 @@ app.set('port', process.env.PORT || 5000);
 
 sequelize.authenticate().then( () =>{
   console.log("db connected!"); 
-})
+}).catch()
 
 //sequilize model sync
 sequelize.sync({ force: false})

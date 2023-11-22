@@ -70,6 +70,10 @@ router.post('/courses', auth,  async (req, res, next) => {
 //update a course by ID
 router.put('/courses/:id', auth, async (req, res, next) => {
     try {
+        if (req.currentUser.id != req.body.userId) {
+            res.status(403).json({message: "Not Authorized"})
+            return 
+        }
         await Course.update(req.body, {
             where: {
                 id: req.params.id
@@ -89,6 +93,11 @@ router.put('/courses/:id', auth, async (req, res, next) => {
 //Delete a course by ID
 router.delete('/courses/:id', auth, async (req, res, next) => {
     try {
+        if (req.currentUser.id != req.body.userId) {
+            res.status(403).json({message: "Not Authorized"})
+            return 
+        }
+
         await Course.destroy( {
             where: {
                 id: req.params.id
