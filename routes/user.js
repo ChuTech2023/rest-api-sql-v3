@@ -1,7 +1,7 @@
 
 const router = require('express').Router()
 const { User } = require('../models');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcrypt');
 const auth = require('../middleware/auth')
 
 // route that returns all properties and values for the currently authenticated User along with a 200 HTTP status code
@@ -22,9 +22,8 @@ router.get('/users', auth, async (req,res, next) => {
 //route for creating a user
 router.post('/users', async (req, res, next) => {
     try {
-        const newUser = req.body
-        newUser.password = bcrypt.hashSync(newUser.password, 10)
-        await User.create(newUser)
+        const newUser = req.body;
+        await User.create(newUser);
         res.status(201).location('/').end();
     } catch (error) {
         if (error.message.includes("salt")) {
